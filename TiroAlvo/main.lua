@@ -52,7 +52,7 @@ end
 
 function love.mousepressed( x, y, button, istouch, presses)
     if button == 1 and gameState == 2 then
-        if distanciaAlvo(x, y) then    
+        if distanciaAlvo(x, y, alvo.x, alvo.y) then    
             score = score + 1
             alvo.x = math.random(alvo.raio,love.graphics.getWidth() - alvo.raio)
             alvo.y = math.random(alvo.raio,love.graphics.getHeight()- alvo.raio)
@@ -66,7 +66,7 @@ function love.mousepressed( x, y, button, istouch, presses)
     elseif button == 3 then
         timer = timer + 20
     elseif button == 2 and gameState == 2 then
-        if distanciaAlvo(x, y) then    
+        if distanciaAlvo(x, y, alvo.x, alvo.y) then    
             score = score + 2
             timer = timer - 1
             alvo.x = math.random(alvo.raio,love.graphics.getWidth() - alvo.raio)
@@ -77,16 +77,9 @@ function love.mousepressed( x, y, button, istouch, presses)
     end
 end
 
-function distanciaAlvo(x, y)
-    
-    local pontoX1 = alvo.x+alvo.raio
-    local pontoX2 = alvo.x-alvo.raio
-    local pontoY1 = alvo.y+alvo.raio
-    local pontoY2 = alvo.y-alvo.raio
-
-    if pontoX1 >= x and pontoX2 <= x then
-        if pontoY1 >= y and pontoY2 <= y then
-            return true
-        end
-    end
+function distanciaAlvo(x, y, x2, y2)
+    local mouseToBetween = math.sqrt( (x2 - x)^2 + (y2 - y)^2 )
+    if mouseToBetween < alvo.raio then
+        return true
+    end 
 end
